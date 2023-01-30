@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkwakuwaku"]=self["webpackChunkwakuwaku"]||[]).push([[667],{4145:function(n,u,r){r.r(u),r.d(u,{default:function(){return w}});var a=r(6252),c=r.p+"img/nopic_card.df25705b.png";const t=(0,a._)("h1",null,"ERROR!!!",-1),e=(0,a._)("img",{src:c,alt:""},null,-1),l=[t,e];function i(n,u){return(0,a.wg)(),(0,a.iD)("div",null,l)}var k=r(3744);const s={},f=(0,k.Z)(s,[["render",i]]);var w=f}}]);
+//# sourceMappingURL=667.2e420498.js.map
