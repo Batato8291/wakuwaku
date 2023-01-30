@@ -2,6 +2,7 @@ const { defineConfig } = require('@vue/cli-service');
 
 module.exports = defineConfig({
   transpileDependencies: true,
+  publicPath: '/Wakuwaku/dist/'
 });
 
 // CK Editor
@@ -75,4 +76,6 @@ module.exports = {
         }),
       }));
   },
+
+  publicPath: '/Wakuwaku/dist/'
 };
