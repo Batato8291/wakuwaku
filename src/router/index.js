@@ -81,7 +81,6 @@ const routes = [
       },
       {
         path: 'login',
-        name: 'login',
         component: () => import('../views/backstage/AdminLogin.vue'),
       },
     ],

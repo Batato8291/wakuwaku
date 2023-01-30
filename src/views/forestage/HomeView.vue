@@ -133,7 +133,7 @@
   <div class="container-fluid mt-5 justify-content-center d-flex">
     <div class="homepage-box d-flex">
       <router-link
-        class="btn btn-info mx-auto my-auto rounded-0 shadow-none"
+        class="btn btn-info mx-auto my-auto shadow-none"
         to="/search?search=&category=all"
       >
         前往商店
@@ -156,13 +156,17 @@
   justify-content: center;
   border-radius: 20px;
   background-attachment: fixed;
-  background-image: url(@/assets/img/homepageBkBox.jpg);
+  background-image: url(@/assets/img/homepageBook.jpg);
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: 50% 80%;
   @media (min-width: 992px) {
     height: 300px;
     width: 75vw;
+  }
+  a {
+    color: white;
+    border-radius: 5px;
   }
 }
 

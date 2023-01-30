@@ -23,195 +23,240 @@
             aria-label="Close"
           ></button>
         </div>
+
         <div class="modal-body">
-          <div class="row">
-            <div class="col-sm-4">
-              <div class="mb-3">
-                <label for="image" class="form-label"
-                  >輸入圖片網址
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="image"
-                    placeholder="請輸入圖片連結"
-                    v-model="tempImgUrl"
-                /></label>
-              </div>
-              <div class="mb-3">
-                <label for="customFile" class="form-label"
-                  >或 上傳圖片
-                  <i class="fas fa-spinner fa-spin"></i>
-                  <input
-                    type="file"
-                    id="customFile"
-                    class="form-control"
-                    ref="fileInput"
-                    @change="uploadFile"
-                /></label>
-              </div>
-              <img class="img-fluid" :src="tempImgUrl" alt="" />
-              <div class="mt-2">
-                <button
-                  @click="newImg"
-                  class="btn btn-outline-primary btn-sm d-block w-100"
-                  :disabled="tempImgUrl == ''"
-                >
-                  新增圖片 (建議 4:3)
-                </button>
-              </div>
-              <!-- 延伸技巧，多圖 -->
-              <div class="mt-5" v-if="tempProduct.images">
-                <div
-                  v-for="(image, key) in tempProduct.images"
-                  :key="key"
-                  class="mb-3 input-group input-group-sm"
-                >
-                  <img class="img-fluid w-100" :src="image" alt="" />
-                  <input
-                    type="url"
-                    class="form-control"
-                    v-model="tempProduct.images[key]"
-                    placeholder="請輸入連結"
-                  />
-                  <button
-                    type="button"
-                    class="btn btn-outline-danger"
-                    @click="tempProduct.images.splice(key, 1)"
-                  >
-                    移除
-                  </button>
-                </div>
-              </div>
-            </div>
-            <!-- modal右側 -->
-            <div class="col-sm-8">
-              <div class="row">
-                <div class="mb-3 col-md-4">
-                  <label for="series" class="form-label w-100"
-                    >系列
+          <VForm
+            v-slot="{ errors }"
+            ref="productForm"
+            id="productForm"
+            @submit="
+              changePriceType(tempProduct),
+                splitAuthor(),
+                $emit('update-product', tempProduct)
+            "
+          >
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="mb-3">
+                  <label for="image" class="form-label"
+                    >輸入圖片網址
                     <input
                       type="text"
                       class="form-control"
-                      id="series"
-                      placeholder="請輸入系列名稱"
-                      v-model="tempProduct.series"
+                      id="image"
+                      placeholder="請輸入圖片連結"
+                      v-model="tempImgUrl"
                   /></label>
                 </div>
-                <div class="mb-3 col-md-4">
-                  <label for="title" class="form-label w-100"
-                    >書名
+                <div class="mb-3">
+                  <label for="customFile" class="form-label"
+                    >或 上傳圖片
+                    <i class="fas fa-spinner fa-spin"></i>
                     <input
+                      type="file"
+                      id="customFile"
+                      class="form-control"
+                      ref="fileInput"
+                      @change="uploadFile"
+                  /></label>
+                </div>
+                <img class="img-fluid" :src="tempImgUrl" alt="" />
+                <div class="mt-2">
+                  <button
+                    @click="newImg"
+                    class="btn btn-outline-primary btn-sm d-block w-100"
+                    :disabled="tempImgUrl == ''"
+                  >
+                    新增圖片 (建議 4:3)
+                  </button>
+                </div>
+                <!-- 延伸技巧，多圖 -->
+                <div class="mt-5" v-if="tempProduct.images">
+                  <div
+                    v-for="(image, key) in tempProduct.images"
+                    :key="key"
+                    class="mb-3 input-group input-group-sm"
+                  >
+                    <img class="img-fluid w-100" :src="image" alt="" />
+                    <input
+                      type="url"
+                      class="form-control"
+                      v-model="tempProduct.images[key]"
+                      placeholder="請輸入連結"
+                    />
+                    <button
+                      type="button"
+                      class="btn btn-outline-danger"
+                      @click="tempProduct.images.splice(key, 1)"
+                    >
+                      移除
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- modal右側 -->
+              <div class="col-sm-8">
+                <div class="row">
+                  <div class="mb-3 col-md-4">
+                    <label for="series" class="form-label w-100">系列</label>
+                    <VField
+                      type="text"
+                      class="form-control"
+                      name="系列"
+                      id="series"
+                      placeholder="請輸入系列名稱"
+                      :class="{ 'is-invalid': errors['系列'] }"
+                      rules="required"
+                      v-model="tempProduct.series"
+                    ></VField>
+                  </div>
+                  <div class="mb-3 col-md-4">
+                    <label for="title" class="form-label w-100">書名</label>
+                    <VField
                       type="text"
                       class="form-control"
                       id="title"
                       placeholder="請輸入書名"
                       v-model="tempProduct.title"
-                  /></label>
-                </div>
-                <div class="mb-3 col-md-4">
-                  <label for="subtitle" class="form-label w-100"
-                    >副標題
+                      name="書名"
+                      :class="{ 'is-invalid': errors['書名'] }"
+                      rules="required"
+                    >
+                    </VField>
+                    <ErrorMessage
+                      name="書名"
+                      class="invalid-feedback"
+                    ></ErrorMessage>
+                  </div>
+                  <div class="mb-3 col-md-4">
+                    <label for="subtitle" class="form-label w-100"
+                      >副標題</label
+                    >
                     <input
                       type="text"
                       class="form-control"
                       id="subtitle"
                       placeholder="請輸入副標題"
                       v-model="tempProduct.subtitle"
-                  /></label>
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div class="row">
-                <div class="mb-3 col-md-4">
-                  <label for="publisher" class="form-label w-100"
-                    >出版社<input
+                <div class="row">
+                  <div class="mb-3 col-md-4">
+                    <label for="publisher" class="form-label w-100"
+                      >出版社</label
+                    >
+                    <VField
                       type="text"
                       class="form-control"
                       id="publisher"
                       placeholder="請輸入出版社"
                       v-model="tempProduct.publisher"
-                  /></label>
+                      name="出版社"
+                      :class="{ 'is-invalid': errors['出版社'] }"
+                      rules="required"
+                    ></VField>
+                    <ErrorMessage
+                      name="出版社"
+                      class="invalid-feedback"
+                    ></ErrorMessage>
+                  </div>
                 </div>
-              </div>
 
-              <div class="row">
-                <div class="mb-3 col-md-3">
-                  <label for="author" class="form-label w-100"
-                    >作者 (多位用","隔開)
-                    <input
+                <div class="row">
+                  <div class="mb-3 col-md-3">
+                    <label for="author" class="form-label w-100"
+                      >作者 (多位用","隔開)</label
+                    >
+                    <VField
                       type="text"
                       class="form-control"
                       id="author"
                       placeholder="請輸入作者"
                       v-model="tempProduct.author"
-                  /></label>
-                </div>
-                <div class="mb-3 col-md-3">
-                  <label for="original_author" class="form-label w-100"
-                    >原作
+                      name="作者"
+                      :class="{ 'is-invalid': errors['作者'] }"
+                      rules="required"
+                    ></VField>
+                    <ErrorMessage
+                      name="作者"
+                      class="invalid-feedback"
+                    ></ErrorMessage>
+                  </div>
+                  <div class="mb-3 col-md-3">
+                    <label for="original_author" class="form-label w-100"
+                      >原作</label
+                    >
                     <input
                       type="text"
                       class="form-control"
                       id="original_author"
                       placeholder="請輸入原作者"
                       v-model="tempProduct.original_author"
-                  /></label>
-                </div>
-                <div class="mb-3 col-md-3">
-                  <label for="illustrator" class="form-label w-100"
-                    >繪師
+                    />
+                  </div>
+                  <div class="mb-3 col-md-3">
+                    <label for="illustrator" class="form-label w-100"
+                      >繪師</label
+                    >
                     <input
                       type="text"
                       class="form-control"
                       id="illustrator"
                       placeholder="請輸入繪師"
                       v-model="tempProduct.illustrator"
-                  /></label>
-                </div>
-                <div class="mb-3 col-md-3">
-                  <label for="translator" class="form-label w-100"
-                    >譯者
+                    />
+                  </div>
+                  <div class="mb-3 col-md-3">
+                    <label for="translator" class="form-label w-100"
+                      >譯者</label
+                    >
                     <input
                       type="text"
                       class="form-control"
                       id="translator"
                       placeholder="請輸入譯者"
                       v-model="tempProduct.translator"
-                  /></label>
+                    />
+                  </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="mb-3 col-md-3">
-                  <label class="form-label w-100" for="category"
-                    >分類
-                    <select
+                <div class="row">
+                  <div class="mb-3 col-md-3">
+                    <label class="form-label w-100" for="category">分類 </label>
+                    <VField
+                      as="select"
                       class="form-select"
                       v-model="tempProduct.category"
                       id="category"
+                      name="分類"
+                      :class="{ 'is-invalid': errors['分類'] }"
+                      rules="required"
                     >
-                      <option value="undefined" selected disabled hidden>
-                        請選擇分類
-                      </option>
+                      <option value="" selected disabled>請選擇分類</option>
                       <option value="comic">漫畫</option>
                       <option value="lightNovel">輕小說</option>
                       <option value="novel">文學小說</option>
                       <option value="nonfiction">一般書、其他</option>
-                    </select>
-                  </label>
-                </div>
-                <div class="mb-3 col-md-3">
-                  <label for="pub_date" class="form-label w-100"
-                    >出版日期
+                    </VField>
+                    <ErrorMessage
+                      name="分類"
+                      class="invalid-feedback"
+                    ></ErrorMessage>
+                  </div>
+                  <div class="mb-3 col-md-3">
+                    <label for="pub_date" class="form-label w-100"
+                      >出版日期</label
+                    >
                     <input
                       type="date"
                       class="form-control"
                       id="pub_date"
                       v-model="pub_date"
-                  /></label>
-                </div>
-                <div class="mb-3 col-md-2">
-                  <label for="pages_num" class="form-label w-100"
-                    >頁數
+                    />
+                  </div>
+                  <div class="mb-3 col-md-2">
+                    <label for="pages_num" class="form-label w-100">頁數</label>
                     <input
                       type="number"
                       min="1"
@@ -219,116 +264,131 @@
                       id="pages_num"
                       placeholder="頁數"
                       v-model="tempProduct.pages_num"
-                  /></label>
-                </div>
-                <div class="mb-3 col-md-2">
-                  <label class="form-label w-100" for="origin_price"
-                    >原價
-                    <input
+                    />
+                  </div>
+                  <div class="mb-3 col-md-2">
+                    <label class="form-label w-100" for="origin_price"
+                      >原價</label
+                    >
+                    <VField
                       type="number"
                       min="0"
                       class="form-control"
                       id="origin_price"
                       placeholder="原價"
                       v-model="tempProduct.origin_price"
-                  /></label>
-                </div>
-                <div class="mb-3 col-md-2">
-                  <label class="form-label w-100" for="price"
-                    >售價
-                    <input
+                      name="原價"
+                      :class="{ 'is-invalid': errors['原價'] }"
+                      rules="numeric|min:0|required"
+                    ></VField>
+                    <ErrorMessage
+                      name="原價"
+                      class="invalid-feedback"
+                    ></ErrorMessage>
+                  </div>
+                  <div class="mb-3 col-md-2">
+                    <label class="form-label w-100" for="price">售價</label>
+                    <VField
                       type="number"
                       min="0"
                       class="form-control"
                       id="price"
                       placeholder="售價"
                       v-model="tempProduct.price"
-                  /></label>
+                      name="售價"
+                      :class="{ 'is-invalid': errors['售價'] }"
+                      rules="numeric|min:0|required"
+                    ></VField>
+                    <ErrorMessage
+                      name="售價"
+                      class="invalid-feedback"
+                    ></ErrorMessage>
+                  </div>
                 </div>
-              </div>
 
-              <div class="mb-3" v-if="tempProduct.category">
-                <label for="product_tags" class="form-label d-block"
-                  >作品標籤</label
-                >
-                <div
-                  class="form-check form-check-inline"
-                  v-for="(tag, key) in tempTags"
-                  :key="key"
-                >
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    :id="'Tag' + key"
-                    :value="tag"
-                    v-model="tempProduct.tags"
-                  />
-                  <label class="form-check-label" :for="'Tag' + key">{{
-                    tag
-                  }}</label>
-                </div>
-              </div>
-              <hr />
-              <!-- 簡介 -->
-              <div class="mb-3 pe-3">
-                <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-                <label for="des_short" class="form-label w-100"
-                  >簡介 (50字內)
-                </label>
-                <textarea
-                  type="text"
-                  class="form-control"
-                  ref="testTx"
-                  id="short_des"
-                  placeholder="請輸入簡介"
-                  style="min-height: 110px; overflow: hidden; resize: none"
-                  v-model="tempProduct.des_short"
-                  @input="txAutogrow"
-                  @focus="txAutogrow"
-                ></textarea>
-              </div>
-              <div class="mb-3 pe-3">
-                <p>內容介紹</p>
-                <ck-editor
-                  @editor-content="editorDescription"
-                  :content="tempProduct.description"
-                ></ck-editor>
-              </div>
-              <div class="mb-3 pe-3">
-                <p>作者簡介</p>
-                <ck-editor
-                  @editor-content="editorAuthorDes"
-                  :content="tempProduct.author_des"
-                ></ck-editor>
-              </div>
-              <div class="mb-3 d-flex">
-                <div class="form-check">
-                  <label class="form-check-label" for="is_enabled"
-                    ><input
+                <div class="mb-3" v-if="tempProduct.category">
+                  <label for="product_tags" class="form-label d-block"
+                    >作品標籤</label
+                  >
+                  <div
+                    class="form-check form-check-inline"
+                    v-for="(tag, key) in tempTags"
+                    :key="key"
+                  >
+                    <input
                       class="form-check-input"
                       type="checkbox"
-                      :true-value="1"
-                      :false-value="0"
-                      id="is_enabled"
-                      v-model="tempProduct.is_enabled"
+                      :id="'Tag' + key"
+                      :value="tag"
+                      v-model="tempProduct.tags"
                     />
-                    是否啟用
-                  </label>
+                    <label class="form-check-label" :for="'Tag' + key">{{
+                      tag
+                    }}</label>
+                  </div>
                 </div>
-                <div class="form-check ms-5">
-                  <label class="form-check-label" for="is_popular"
-                    ><input
-                      class="form-check-input"
-                      type="checkbox"
-                      id="is_popular"
-                      v-model="tempProduct.is_popular"
-                    />
-                    是否熱門 (因為沒有實際銷售,以此模擬)
+                <hr />
+                <!-- 簡介 -->
+                <div class="mb-3 pe-3">
+                  <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+                  <label for="des_short" class="form-label w-100"
+                    >簡介 (50字內)
                   </label>
+                  <textarea
+                    type="text"
+                    class="form-control"
+                    ref="testTx"
+                    id="short_des"
+                    placeholder="請輸入簡介"
+                    style="min-height: 110px; overflow: hidden; resize: none"
+                    v-model="tempProduct.des_short"
+                    @input="txAutogrow"
+                    @focus="txAutogrow"
+                  ></textarea>
+                </div>
+                <div class="mb-3 pe-3">
+                  <p>內容介紹</p>
+                  <text-editor
+                    @editor-content="editorDescription"
+                    :content="tempProduct.description"
+                  ></text-editor>
+                </div>
+                <div class="mb-3 pe-3">
+                  <p>作者簡介</p>
+                  <text-editor
+                    @editor-content="editorAuthorDes"
+                    :content="tempProduct.author_des"
+                  ></text-editor>
+                </div>
+                <div class="mb-3 d-flex">
+                  <div class="form-check">
+                    <label class="form-check-label" for="is_enabled"
+                      ><input
+                        class="form-check-input"
+                        type="checkbox"
+                        :true-value="1"
+                        :false-value="0"
+                        id="is_enabled"
+                        v-model="tempProduct.is_enabled"
+                      />
+                      是否啟用
+                    </label>
+                  </div>
+                  <div class="form-check ms-5">
+                    <label class="form-check-label" for="is_popular"
+                      ><input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="is_popular"
+                        v-model="tempProduct.is_popular"
+                      />
+                      是否熱門 (因為沒有實際銷售,以此模擬)
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </VForm>
         </div>
         <div class="modal-footer">
           <button
@@ -338,11 +398,7 @@
           >
             取消
           </button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            @click="splitAuthor(), $emit('update-product', tempProduct)"
-          >
+          <button type="submit" form="productForm" class="btn btn-primary">
             確認
           </button>
         </div>
@@ -352,7 +408,7 @@
 </template>
 <script>
 import Modal from 'bootstrap/js/dist/modal';
-import CkEditor from './CkEditorComponent.vue';
+import textEditor from './CkEditorComponent.vue';
 
 export default {
   props: {
@@ -364,7 +420,7 @@ export default {
     },
   },
 
-  components: { CkEditor },
+  components: { textEditor },
   watch: {
     product() {
       this.tempProduct = this.product;
@@ -402,6 +458,8 @@ export default {
       modal: {},
       tempProduct: {
         category: undefined,
+        description: '',
+        author_des: '',
       },
       tempDes: '',
       pub_date: '',
@@ -537,6 +595,14 @@ export default {
     },
     editorAuthorDes(des) {
       this.tempProduct.author_des = des;
+    },
+
+    testFn() {
+      console.log(this.$refs.productForm);
+    },
+    changePriceType(item) {
+      item.origin_price = parseInt(item.origin_price);
+      item.price = parseInt(item.price);
     },
   },
   mounted() {

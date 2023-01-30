@@ -76,7 +76,7 @@ export default {
   },
   created() {
     this.id = this.$route.params.articleId;
-    this.getArticle(this.id);
+    // this.getArticle(this.id);
   },
 };
 </script>

@@ -45,13 +45,6 @@
       </button>
     </div>
     <div class="text-end">
-      <div>
-        <input type="text" v-model="tempTest" />
-        <button class="btn btn-primary" @click="tempSearch">
-          <i class="bi bi-airplane-fill"></i>
-          Search
-        </button>
-      </div>
       <button
         class="btn btn-warning me-5"
         @click="hurryCreate(true, lastProduct)"
@@ -168,7 +161,6 @@ export default {
       isLoading: false,
       isActive: 'all',
       lastProduct: {},
-      tempTest: '',
     };
   },
   components: {
@@ -178,7 +170,7 @@ export default {
   },
   inject: ['emitter'],
   methods: {
-    getProducts(category = 'all') {
+    getProducts(category = 'all', tempPage = 1) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products/all`;
       this.isLoading = true;
       this.$http.get(api).then((res) => {
@@ -187,11 +179,11 @@ export default {
         this.isLoading = false;
         if (res.data.success) {
           this.products = res.data.products;
-          this.filterByCategory(this.products, category);
+          this.filterByCategory(this.products, category, tempPage);
         }
       });
     },
-    filterByCategory(list, category) {
+    filterByCategory(list, category, tempPage = 1) {
       const newArr = Object.values(list).reverse();
       if (!category || category === 'all') {
         this.filteredProducts = newArr;
@@ -203,10 +195,11 @@ export default {
         this.isActive = category;
       }
       console.log(category, this.filteredProducts.length);
-      this.pagination(1);
+      this.pagination(tempPage);
     },
     updateProduct(item) {
       this.tempProduct = item;
+
       this.lastProduct = item;
       // 新增
       let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`;
@@ -221,13 +214,15 @@ export default {
       const productComponent = this.$refs.productModal;
       this.$http[httpMethod](api, { data: this.tempProduct }).then((res) => {
         productComponent.hideModal();
-        this.getProducts(item.category);
+        this.getProducts(item.category, this.pageInfo.currentPage);
         this.$httpMessageState(res, '更新產品');
       });
     },
     openModal(isNew, item) {
       if (isNew) {
         this.tempProduct = {
+          description: '<p>請輸入文章內容</p>',
+          author_des: '<p>請輸入作者簡介</p>',
           unit: 'unit',
           tags: [],
           is_enabled: false,
@@ -306,18 +301,9 @@ export default {
       this.nowPageData = data;
       this.pageInfo = pageInfo;
     },
-
-    // test
-    tempSearch() {
-      const search = this.tempTest.trim().toLowerCase();
-      const newSearch = search.replace(/\(|\)/g, '');
-
-      console.log(newSearch);
-      const match = this.filteredProducts.filter((item) => {
-        item.title.trim().toLowerCase();
-        return item.title.match(newSearch);
-      });
-      console.log('match', match);
+    changePriceType(item) {
+      item.origin_price = parseInt(item.origin_price);
+      item.price = parseInt(item.price);
     },
   },
   created() {

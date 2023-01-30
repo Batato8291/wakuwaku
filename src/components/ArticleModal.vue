@@ -147,10 +147,10 @@
           <!-- 下方內容 -->
           <div class="col-md-12 mt-2">
             <p>文章內容 (導購不會顯示)</p>
-            <ck-editor
+            <documentEditor
               @editor-content="editorContent"
               :content="tempArticle.content"
-            ></ck-editor>
+            ></documentEditor>
             <p>預覽文章內容</p>
             <p>{{ tempArticle.content }}</p>
           </div>
@@ -173,7 +173,7 @@
 </template>
 <script>
 import modalMixin from '@/mixins/modalMixin';
-import CkEditor from '@/components/CkEditorComponent.vue';
+import documentEditor from '@/components/CkEditorComponent.vue';
 
 export default {
   name: 'articleModal',
@@ -204,7 +204,7 @@ export default {
     };
   },
 
-  components: { CkEditor },
+  components: { documentEditor },
   watch: {
     article() {
       this.tempArticle = this.article;
