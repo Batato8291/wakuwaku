@@ -15,6 +15,7 @@ import FontColor from '@ckeditor/ckeditor5-font/src/fontcolor.js';
 import FontSize from '@ckeditor/ckeditor5-font/src/fontsize.js';
 import Heading from '@ckeditor/ckeditor5-heading/src/heading.js';
 import Image from '@ckeditor/ckeditor5-image/src/image.js';
+import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize.js';
 import ImageCaption from '@ckeditor/ckeditor5-image/src/imagecaption.js';
 import ImageStyle from '@ckeditor/ckeditor5-image/src/imagestyle.js';
 import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar.js';
@@ -48,6 +49,7 @@ Editor.builtinPlugins = [
 	FontSize,
 	Heading,
 	Image,
+	ImageResize,
 	ImageCaption,
 	ImageStyle,
 	ImageToolbar,
