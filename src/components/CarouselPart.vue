@@ -220,12 +220,13 @@
           </div>
           <!-- 左側小圖 -->
           <div
-            class="overflow-hidden mt-3 d-xxl-block"
+            class="overflow-hidden mt-3 d-xxl-inline text-center"
             style="max-height: 200px; display: none"
           >
             <img
-              class="overflow-hidden"
-              src="https://picsum.photos/200/150?random=1"
+              class=""
+              style="object-fit: cover"
+              src="https://picsum.photos/250/150?random=1"
               alt=""
             />
           </div>

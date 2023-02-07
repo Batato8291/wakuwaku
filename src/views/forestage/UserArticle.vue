@@ -1,9 +1,6 @@
 <template>
   <div class="container">
-    <div v-if="article.article_type != 'guide'" class="jumping">
-      Jumping off the page....
-    </div>
-    <h1>{{ article.title }}</h1>
+    <h1 class="article_title">{{ article.title }}</h1>
     <p class="text-secondary mb-2" style="font-size: small">
       {{
         new Date(article.create_at * 1000).toLocaleDateString('zh-TW', {
@@ -14,21 +11,23 @@
       }}&emsp; 文：{{ article.author }}
     </p>
 
-    <div class="campaign-img">
-      <img :src="article.coverImg" alt="event picture" />
+    <!-- <div class="campaign-img d-flex justify-content-center">
+      <img
+        :src="article.coverImg"
+        style="max-height: 300px"
+        alt="event picture"
+      />
+    </div> -->
+
+    <div class="w-100">
+      <div class="campaign-content" v-html="article.content"></div>
     </div>
-    <div class="campaign-content" v-html="article.content"></div>
   </div>
 </template>
 <style lang="scss" scoped>
-.jumping {
-  text-align: center;
-  font-size: 3rem;
-  font-weight: 1000;
-  width: 80%;
-  height: 500px;
-  background-color: aliceblue;
-  color: orange;
+.article_title {
+  font-weight: 600;
+  color: rgb(255, 169, 83);
 }
 .campaign-img {
   img {
@@ -38,6 +37,7 @@
 }
 .campaign-content {
   padding: 1rem 0.5rem;
+  overflow: hidden;
 }
 </style>
 <script>
@@ -76,7 +76,7 @@ export default {
   },
   created() {
     this.id = this.$route.params.articleId;
-    // this.getArticle(this.id);
+    this.getArticle(this.id);
   },
 };
 </script>
