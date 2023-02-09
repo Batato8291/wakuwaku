@@ -20,20 +20,140 @@
     </div> -->
 
     <div class="w-100">
-      <div class="campaign-content" v-html="article.content"></div>
+      <div class="campaign-content ck-content" v-html="article.content"></div>
     </div>
   </div>
 </template>
 <style lang="scss" scoped>
+$--ck-image-style-spacing: 1.5em;
+$--ck-inline-image-style-spacing: $--ck-image-style-spacing / 2;
+
+// ck-editor css setting
+.ck-content:deep {
+  & .image {
+    display: table;
+    clear: both;
+    text-align: center;
+    margin: 0.9em auto;
+    min-width: 50px;
+    & img {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      min-width: 100%;
+    }
+  }
+  & .image-inline {
+    display: inline-flex;
+    max-width: 100%;
+    align-items: flex-start;
+    & picture {
+      display: flex;
+    }
+    & picture,
+    & img {
+      flex-grow: 1;
+      flex-shrink: 1;
+      max-width: 100%;
+    }
+  }
+  & .image.image_resized {
+    max-width: 100%;
+    display: block;
+    box-sizing: border-box;
+    & img {
+      width: 100%;
+    }
+    & > figcaption {
+      display: block;
+    }
+  }
+
+  & .image-style-block-align-left,
+  & .image-style-block-align-right {
+    max-width: calc(100% - $--ck-image-style-spacing);
+  }
+  &.image-style-align-left,
+  & .image-style-align-right {
+    clear: none;
+  }
+  & .image-style-side {
+    float: right;
+    margin-left: $--ck-image-style-spacing;
+    max-width: 50%;
+  }
+  & .image-style-align-left {
+    float: left;
+    margin-right: $--ck-image-style-spacing;
+  }
+  & .image-style-align-center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  & .image-style-align-right {
+    float: right;
+    margin-left: $--ck-image-style-spacing;
+  }
+  & .image-style-block-align-right {
+    margin-right: 0;
+    margin-left: auto;
+  }
+  & .image-style-block-align-left {
+    margin-left: 0;
+    margin-right: auto;
+  }
+  & p + .image-style-align-left,
+  & p + .image-style-align-right,
+  & p + .image-style-side {
+    margin-top: 0;
+  }
+  & .image-inline {
+    &.image-style-align-left,
+    &.image-style-align-right {
+      margin-top: $--ck-inline-image-style-spacing;
+      margin-bottom: $--ck-inline-image-style-spacing;
+    }
+    &.image-style-align-left {
+      margin-right: $--ck-inline-image-style-spacing;
+    }
+    &.image-style-align-right {
+      margin-left: $--ck-inline-image-style-spacing;
+    }
+  }
+
+  .table {
+    margin: 0.9em auto;
+    display: table;
+
+    & table {
+      border-collapse: collapse;
+      border-spacing: 0;
+      width: 100%;
+      height: 100%;
+      border: 1px double hsl(0, 0%, 70%);
+
+      & td,
+      & th {
+        min-width: 2em;
+        padding: 0.4em;
+        border: 1px solid hsl(0, 0%, 75%);
+      }
+
+      & th {
+        font-weight: bold;
+        background: hsla(0, 0%, 0%, 5%);
+      }
+    }
+  }
+}
+
 .article_title {
   font-weight: 600;
   color: rgb(255, 169, 83);
 }
-.campaign-img {
-  img {
-    max-width: 80vw;
-    object-fit: cover;
-  }
+.campaign-img img {
+  max-width: 80vw;
+  object-fit: cover;
 }
 .campaign-content {
   padding: 1rem 0.5rem;
