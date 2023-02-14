@@ -219,17 +219,13 @@
             </ul>
           </div>
           <!-- 左側小圖 -->
-          <div
-            class="overflow-hidden mt-3 d-xxl-inline text-center"
-            style="max-height: 200px; display: none"
+          <router-link
+            to="/search?search=&category=all"
+            class="overflow-hidden mt-3 d-none d-xxl-inline text-center"
+            style="max-height: 150px"
           >
-            <img
-              class=""
-              style="object-fit: cover"
-              src="https://picsum.photos/250/150?random=1"
-              alt=""
-            />
-          </div>
+            <img class="w-75" src="@/assets/img/home_side_img.png" alt="" />
+          </router-link>
         </div>
       </div>
       <!-- 右側圖片 -->
