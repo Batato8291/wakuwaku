@@ -26,7 +26,7 @@
       <!-- 簡介 -->
       <div class="des_short bg-light">
         <p>
-          {{ productInfo.des_short }}
+          {{ shortIntro }}
           <span
             ><router-link :to="`/product/${productInfo.id}`" class=""
               >... more</router-link
@@ -213,7 +213,6 @@ import { addToFavor, addToCart } from '@/methods/routeToFn';
 export default {
   data() {
     return {
-      favorIndex: '',
       favorArr: JSON.parse(localStorage.getItem('favor')) || [],
       status: {
         loadingItem: '', //動應品項id
@@ -236,6 +235,23 @@ export default {
         return false;
       } else {
         return true;
+      }
+    },
+    shortIntro() {
+      const des = this.productInfo.des_short;
+
+      if (window.innerWidth > 992) {
+        if (des && des.length >= 180) {
+          return des.slice(0, 180);
+        } else {
+          return des;
+        }
+      } else {
+        if (des && des.length >= 100) {
+          return des.slice(0, 100);
+        } else {
+          return des;
+        }
       }
     },
   },

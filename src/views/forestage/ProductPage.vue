@@ -64,7 +64,7 @@
 
         <!-- products pic lightbox -->
         <div class="modal" tabindex="-1" ref="pic_modal">
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
                 <button
@@ -178,13 +178,17 @@
         <div
           class="row justify-content-center justify-content-lg-start product-control mx-lg-5"
         >
-          <button class="btn col-5 col-lg-3" @click="isFavorite = !isFavorite">
+          <button class="btn col-5 col-lg-3" @click="addToFavor(this.id)">
             <span v-if="isFavorite"
               ><i class="fa-solid fa-sun"></i> 取消收藏</span
             >
             <span v-else> <i class="fa-regular fa-sun"></i> 加入收藏 </span>
           </button>
-          <button class="btn col-5 col-lg-3">
+          <button
+            class="btn col-5 col-lg-3"
+            @click="addToCart(this.id)"
+            :disabled="this.status.loadingItem === this.id"
+          >
             <span><i class="fa-solid fa-cart-arrow-down"></i> 加入購物車</span>
           </button>
         </div>
@@ -538,6 +542,7 @@
 }
 </style>
 <script>
+import { addToFavor, addToCart } from '@/methods/routeToFn';
 import { Pagination, Navigation } from 'swiper';
 import Tab from 'bootstrap/js/dist/tab';
 import RecommendSwiper from '@/components/ProductSwiper.vue';
@@ -559,7 +564,7 @@ export default {
           el: '.product-swiper-pagination',
         },
       },
-      isFavorite: false,
+
       picModal: {},
       picCarousel: {},
 
@@ -567,6 +572,10 @@ export default {
       product: {},
       categoryCN: '',
       id: '',
+      status: {
+        loadingItem: '', //動應品項id
+      },
+      favorArr: JSON.parse(localStorage.getItem('favor')) || [],
     };
   },
   props: {
@@ -616,8 +625,18 @@ export default {
       const discountPercent = Math.round((num / deno) * 100);
       return discountPercent;
     },
+    isFavorite() {
+      const index = this.favorArr.indexOf(this.id);
+      if (index === -1) {
+        return false;
+      } else {
+        return true;
+      }
+    },
   },
   methods: {
+    addToFavor,
+    addToCart,
     // 放大圖片
     addZoomFn(event) {
       event.target.className += ' pic-zoom';

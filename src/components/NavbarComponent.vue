@@ -1,7 +1,7 @@
 <!-- eslint-disable max-len  -->
 <template>
   <nav
-    class="navbar navbar-light bg-gradient homeNbSet py-0 py-sm-2 mb-2 mb-sm-4"
+    class="navbar navbar-light bg-gradient homeNbSet py-0 py-lg-2 mb-2 mb-sm-4"
   >
     <div class="container-fluid container-lg px-0 px-md-3">
       <!-- offcanvas 開關 -->
@@ -15,6 +15,7 @@
         <i class="fa-solid fa-bars"></i>
       </button>
       <!-- Logo -->
+
       <router-link
         class="navbar-brand mt-1 mx-auto mx-lg-0 me-lg-auto"
         to="/home"
@@ -24,6 +25,7 @@
           ><span>a</span><span>k</span><span>u</span><span>&nbsp;!</span>
         </h1>
       </router-link>
+
       <button
         class="btn smCartBtn"
         :class="{ 'carts-num': cartsLength != 0 }"
@@ -35,62 +37,66 @@
 
       <!-- search control -->
       <div
-        class="mx-auto ms-xxl-0 my-2 my-md-auto d-flex justify-content-center order-2 order-lg-0 col-10 col-lg-6 search-bar"
+        class="d-flex justify-content-center mx-auto my-0 order-2 order-lg-0 col-10 col-lg-6"
+        :class="{ hide: hideSearchBar }"
+        id="search-bar"
       >
-        <div class="search-input-group">
-          <select
-            class="form-select search-input-select"
-            v-model="searchCategory"
-          >
-            <option value="all" selected>全部</option>
-            <option value="comic">漫畫</option>
-            <option value="lightNovel">輕小說</option>
-            <option value="novel">一般小說</option>
-            <option value="nonfiction">實用中文書</option>
-          </select>
-          <div class="search-input-text">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Search"
-              aria-label="Search input"
-              aria-describedby="search-button"
-              v-model.trim="search"
-              @keydown="keyboardEvent"
-            />
-            <button
-              class="search-clear-btn"
-              title="Clear"
-              v-if="search !== ''"
-              @click="search = ''"
+        <div class="search-group d-flex justify-content-center">
+          <div class="search-input-group">
+            <select
+              class="form-select search-input-select"
+              v-model="searchCategory"
             >
-              <i class="fa-solid fa-xmark"></i>
-            </button>
-            <ul
-              class="auteComplete search-input-list"
-              :class="autoComplete ? '' : 'd-none'"
-            >
-              <li
-                v-for="(item, i) in filterProducts"
-                :key="item.id"
-                :class="selectedIndex === i ? 'bg-selected-item' : ''"
-                @click="search = item.title"
+              <option value="all" selected>全部</option>
+              <option value="comic">漫畫</option>
+              <option value="lightNovel">輕小說</option>
+              <option value="novel">一般小說</option>
+              <option value="nonfiction">實用中文書</option>
+            </select>
+            <div class="search-input-text">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search"
+                aria-label="Search input"
+                aria-describedby="search-button"
+                v-model.trim="search"
+                @keydown="keyboardEvent"
+              />
+              <button
+                class="search-clear-btn"
+                title="Clear"
+                v-if="search !== ''"
+                @click="search = ''"
               >
-                <a class="search-input-list-item"> {{ item.title }} </a>
-              </li>
-            </ul>
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+              <ul
+                class="auteComplete search-input-list"
+                :class="autoComplete ? '' : 'd-none'"
+              >
+                <li
+                  v-for="(item, i) in filterProducts"
+                  :key="item.id"
+                  :class="selectedIndex === i ? 'bg-selected-item' : ''"
+                  @click="search = item.title"
+                >
+                  <a class="search-input-list-item"> {{ item.title }} </a>
+                </li>
+              </ul>
+            </div>
           </div>
+          <button
+            class="btn btn-outline-secondary search-input-btn"
+            type="button"
+            id="search-button"
+            @click="searchProduct"
+          >
+            <i class="bi bi-search"></i>
+          </button>
         </div>
-        <button
-          class="btn btn-outline-secondary search-input-btn"
-          type="button"
-          id="search-button"
-          @click="searchProduct"
-        >
-          <i class="bi bi-search"></i>
-        </button>
       </div>
-
+      <div class="cover_banner"></div>
       <div class="nbList">
         <ul class="nbList-ul">
           <!-- <li class="">
@@ -499,10 +505,13 @@
 /* Navbar color setting */
 .homeNbSet {
   box-shadow: 0 0 10px rgba(197, 197, 197, 0.938);
-  background-color: rgba(255, 252, 248, 0.973);
   position: sticky;
   top: 0;
+  background-color: rgba(255, 252, 248, 0.973);
   z-index: 1030;
+  .container-fluid {
+    position: relative;
+  }
 }
 
 /* sm navbar-list setting */
@@ -803,6 +812,39 @@ nav:hover span {
     font-weight: 800;
   }
 }
+#search-bar {
+  position: relative;
+}
+@media screen and (max-width: 992px) {
+  .homeNbSet {
+    margin-bottom: 55px !important;
+  }
+
+  #search-bar {
+    position: absolute;
+    background-color: rgba(255, 252, 248, 0.904);
+    padding: 0.5rem 0;
+    width: 100%;
+    top: 100%;
+    left: 0;
+    z-index: -1;
+    transition: 0.3s all ease-out;
+
+    &.hide {
+      transform: translate3d(0, -100%, 0);
+    }
+    .search-group {
+      width: 80%;
+    }
+  }
+  .cover_banner {
+    position: absolute;
+    background-color: rgb(255, 252, 248);
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+}
 </style>
 <script>
 import Offcanvas from 'bootstrap/js/dist/offcanvas';
@@ -816,6 +858,8 @@ export default {
       offcanvas: {},
       searchCategory: 'all',
       tempProductsList: [],
+      hideSearchBar: false,
+      lastScrollPos: 0,
       search: '',
       searchArr: [],
       autoComplete: false,
@@ -840,7 +884,7 @@ export default {
   },
   computed: {
     filterProducts() {
-      const filterResult = this.tempProductsList.filter((item) => {
+      let filterResult = this.tempProductsList.filter((item) => {
         return item.title.match(this.search);
       });
       if (filterResult.length <= 10) {
@@ -864,7 +908,7 @@ export default {
     searchCategory: {
       handler() {
         if (this.searchCategory === 'all') {
-          this.tempProductsList = [...this.allProducts];
+          this.tempProductsList = Array.from(this.allProducts);
         } else {
           this.tempProductsList = this.allProducts.filter(
             (item) => item.category === this.searchCategory,
@@ -879,7 +923,6 @@ export default {
     routeToFn,
 
     keyboardEvent(e) {
-      console.log(this.selectedIndex);
       //按鍵向上
       if (e.keyCode === 38) {
         if (this.selectedIndex >= 0) {
@@ -927,8 +970,20 @@ export default {
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
       this.$http.get(url).then((res) => {
         this.carts = res.data.data.carts;
-        console.log('cart', this.carts);
       });
+    },
+    hideSearch() {
+      const currentScrollPosition =
+        window.pageYOffset || document.documentElement.scrollTop;
+      if (currentScrollPosition < 0) {
+        return;
+      }
+
+      this.hideSearchBar =
+        !this.search && currentScrollPosition > this.lastScrollPos
+          ? true
+          : false;
+      this.lastScrollPos = currentScrollPosition;
     },
   },
   created() {
@@ -945,8 +1000,10 @@ export default {
     const dropdownList = [...dropdownElementList].map(
       (dropdownToggleEl) => new Dropdown(dropdownToggleEl),
     );
-
-    console.log('navbar mounted');
+    window.addEventListener('scroll', this.hideSearch);
+  },
+  unmounted() {
+    window.removeEventListener('scroll', this.hideSearch);
   },
 };
 </script>

@@ -1,4 +1,5 @@
 <template>
+  <LoadingOverlay :active="isLoading"></LoadingOverlay>
   <div class="container">
     <div class="row">
       <!-- 左側sidebar -->
@@ -817,9 +818,9 @@ export default {
     // get product
     getProducts() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`;
-      //this.isLoading = true;
+      this.isLoading = true;
       this.$http.get(api).then((res) => {
-        // this.isLoading =false;
+        this.isLoading = false;
         if (res.data.success) {
           const productsArr = Object.values(res.data.products);
 

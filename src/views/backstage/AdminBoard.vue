@@ -72,7 +72,7 @@
       </div>
     </div>
   </nav>
-  <ToastMessages></ToastMessages>
+  <ToastMessages class="pe-3 mt-3 top-0 end-0"></ToastMessages>
   <router-view />
 </template>
 <script>

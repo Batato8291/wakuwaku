@@ -43,8 +43,12 @@ export function addToFavor(id) {
   const index = this.favorArr.indexOf(id);
   if (index === -1) {
     this.favorArr.push(id);
+    const res = { data: { success: true } };
+    this.$httpMessageState(res, '加入收藏');
   } else {
     this.favorArr.splice(index, 1);
+    const res = { data: { success: false, message: 'favor' } };
+    this.$httpMessageState(res, '取消收藏');
   }
   localStorage.setItem('favor', JSON.stringify(this.favorArr));
 }
@@ -61,8 +65,9 @@ export function addToCart(id) {
   // console.log(url, cart);
   this.$http.post(url, { data: cart }).then((res) => {
     this.status.loadingItem = '';
-    this.$emitter.emit('cartsUpdate', {});
+    // this.$emitter.emit('cartsUpdate', {});
     console.log(res);
+    this.$httpMessageState(res, '加入購物車');
   });
 
   // e.stopPropagation();

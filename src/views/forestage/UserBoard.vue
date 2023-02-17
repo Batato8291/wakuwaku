@@ -1,5 +1,8 @@
 <template>
+  <LoadingOverlay :active="isLoading"></LoadingOverlay>
+
   <Navbar :all-products="this.products" :tag-lists="this.tags"></Navbar>
+
   <router-view
     :filtered-list="this.filteredList"
     :tag-lists="this.tags"
@@ -19,6 +22,7 @@
       </p>
     </div>
   </footer>
+  <ToastMessages class="end-0" style="top: 50px"></ToastMessages>
 </template>
 <style lang="scss" scoped>
 .homeFooter {
@@ -86,11 +90,15 @@
 </style>
 <script>
 import Navbar from '@/components/NavbarComponent.vue';
+import emitter from '@/methods/emitter';
+import ToastMessages from '@/components/ToastMessages.vue';
 
 export default {
   components: {
     Navbar,
+    ToastMessages,
   },
+
   data() {
     return {
       products: {},
@@ -124,9 +132,9 @@ export default {
   methods: {
     getProducts() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`;
-      //this.isLoading = true;
+      this.isLoading = true;
       this.$http.get(api).then((res) => {
-        // this.isLoading = false;
+        this.isLoading = false;
         if (res.data.success) {
           const productsArr = Object.values(res.data.products);
           this.products = this.sortByDate(productsArr);
@@ -166,7 +174,7 @@ export default {
       return finalTagsList;
     },
     filterByCategory(listArr, category) {
-      let tempArr = [...listArr];
+      const tempArr = Array.from(listArr);
       // all products of this category
       if (category === 'all') {
         return tempArr;

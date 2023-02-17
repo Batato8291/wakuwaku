@@ -13,7 +13,7 @@
       </div>
     </div>
     <!-- order Info -->
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center flex-wrap">
       <!-- order list -->
       <div class="col-12 col-lg-5 px-3">
         <div
@@ -121,7 +121,6 @@
           </tbody>
         </table>
         <div class="d-flex justify-content-end mt-2 pe-2">
-          <button class="btn btn-success" @click="test">MODAL</button>
           <button class="btn btn-danger" @click="toPay(id)">前往付款</button>
         </div>
       </div>
@@ -266,10 +265,7 @@ export default {
       this.hideModal();
       this.$router.push(this.toPage);
     },
-    test() {
-      console.log('eeeeee', this.$route);
-      this.showModal();
-    },
+
     getAllOrder(page) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/orders?page=${page}`;
       this.$http.get(api).then((res) => {

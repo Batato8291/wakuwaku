@@ -16,7 +16,6 @@
           v-for="(product, i) in productsList"
           :key="product.id"
         >
-          <h5>第{{ i + 1 }}個</h5>
           <product-card
             class="product-cards change"
             :product-info="product"
