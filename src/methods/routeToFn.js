@@ -38,7 +38,6 @@ export default function (
 
 // add to favor
 export function addToFavor(id) {
-  console.log('add or remove favorites', id);
   this.favorArr = JSON.parse(localStorage.getItem('favor')) || [];
   const index = this.favorArr.indexOf(id);
   if (index === -1) {
@@ -55,18 +54,15 @@ export function addToFavor(id) {
 
 // add to cart
 export function addToCart(id) {
-  console.log('add to cart', id);
   const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
   this.status.loadingItem = id;
   const cart = {
     product_id: id,
     qty: 1,
   };
-  // console.log(url, cart);
+
   this.$http.post(url, { data: cart }).then((res) => {
     this.status.loadingItem = '';
-    // this.$emitter.emit('cartsUpdate', {});
-    console.log(res);
     this.$httpMessageState(res, '加入購物車');
   });
 

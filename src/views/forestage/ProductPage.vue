@@ -679,7 +679,6 @@ export default {
       this.$http.get(url).then((res) => {
         if (res.data.success) {
           this.product = res.data.product;
-          console.log('temp product', this.product);
           this.$emit('temp-selection', this.product.category);
         }
       });

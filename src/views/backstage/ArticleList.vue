@@ -111,7 +111,6 @@ export default {
     getArticles(page = 1) {
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/articles?page=${page}`;
       this.$http.get(url).then((res) => {
-        console.log(res);
         if (res.data.success) {
           this.articles = res.data.articles;
           const { pagination } = res.data;
@@ -138,7 +137,6 @@ export default {
         this.isNew = isNew;
         const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/article/${id}`;
         this.$http.get(url).then((res) => {
-          console.log(res);
           if (res.data.success) {
             const resArticle = res.data.article;
             this.tempArticle = { ...resArticle };
@@ -160,7 +158,6 @@ export default {
       }
       const articleComponent = this.$refs.articleModal;
       this.$http[httpMethod](api, { data: this.tempArticle }).then((res) => {
-        console.log(res);
         articleComponent.hideModal();
         this.getArticles();
         this.$httpMessageState(res, '更新文章');
@@ -179,7 +176,6 @@ export default {
       this.isLoading = true;
       this.$http.delete(api).then((res) => {
         this.isLoading = false;
-        console.log(res);
         delComponent.hideModal();
         this.getArticles();
         this.$httpMessageState(res, '刪除文章');

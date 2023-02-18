@@ -548,7 +548,6 @@ export default {
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
       this.$http.get(url).then((res) => {
         this.carts = res.data.data.carts;
-        console.log('cart', this.carts);
         if (this.carts[0].hasOwnProperty('coupon')) {
           this.isCoupon = true;
         }
@@ -557,13 +556,11 @@ export default {
     deleteCart(id) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
       this.$http.delete(api).then((res) => {
-        console.log(res);
         this.getCarts();
       });
     },
 
     createOrder() {
-      console.log(this.form);
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/order`;
       this.$http.post(api, { data: this.form }).then((res) => {
         this.$emitter.emit('cartsUpdate', {});

@@ -174,8 +174,6 @@ export default {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products/all`;
       this.isLoading = true;
       this.$http.get(api).then((res) => {
-        // console.log(res);
-        console.log(res.data);
         this.isLoading = false;
         if (res.data.success) {
           this.products = res.data.products;
@@ -194,7 +192,6 @@ export default {
         );
         this.isActive = category;
       }
-      console.log(category, this.filteredProducts.length);
       this.pagination(tempPage);
     },
     updateProduct(item) {
@@ -259,7 +256,6 @@ export default {
       this.isLoading = true;
       this.$http.delete(api).then((res) => {
         this.isLoading = false;
-        console.log(res);
         delComponent.hideModal();
         this.getProducts();
         this.$httpMessageState(res, '刪除產品');

@@ -267,18 +267,12 @@ export default {
       },
     };
   },
-  watch: {
-    'status.loadingItem'() {
-      console.log('product array change!');
-    },
-  },
   computed: {},
   created() {
     this.getCartIDs();
     this.favorArr.forEach((item, index) => {
       this.getProduct(item, index);
     });
-    console.log('Arr', this.favorArr);
   },
   methods: {
     getProduct(id, index) {
@@ -294,7 +288,6 @@ export default {
         res.data.data.carts.forEach((item) => {
           this.cartIDs.push(item.product_id);
         });
-        console.log('cart', this.cartIDs);
       });
     },
     removeFavor(item) {
@@ -307,7 +300,6 @@ export default {
     addToCart,
     pushCart(id) {
       this.cartIDs.push(id);
-      console.log('id', this.cartIDs);
     },
   },
 };

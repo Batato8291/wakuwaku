@@ -139,7 +139,6 @@ export default {
   watch: {
     order() {
       this.tempOrder = this.order;
-      console.log(this.tempOrder);
       const pm = this.order.user.payment;
       if (pm == 'credit_card') {
         this.paymentMeth = '信用卡付款 $60';
@@ -169,9 +168,7 @@ export default {
     };
   },
   mixins: [modalMixin],
-  methods: {},
   mounted() {
-    console.log(this.order);
     this.tempOrder = { ...this.order };
   },
 };

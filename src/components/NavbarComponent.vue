@@ -79,9 +79,9 @@
                   v-for="(item, i) in filterProducts"
                   :key="item.id"
                   :class="selectedIndex === i ? 'bg-selected-item' : ''"
-                  @click="search = item.title"
+                  @click="$router.push(`/product/${item.id}`), (search = '')"
                 >
-                  <a class="search-input-list-item"> {{ item.title }} </a>
+                  <p class="m-0">{{ item.title }}</p>
                 </li>
               </ul>
             </div>
@@ -142,7 +142,6 @@
         ref="offcanvas"
       >
         <div class="offcanvas-header">
-          <!-- <h5 class="offcanvas-title" id="offcanvasNavbarLabel">抽屜頁</h5> -->
           <button
             type="button"
             class="btn-close btn-lg"
@@ -702,14 +701,10 @@ nav:hover span {
       & > li {
         line-height: 30px;
         padding-left: 5px;
+        cursor: pointer;
         &:hover {
           background-color: rgb(235, 235, 235);
         }
-      }
-      .search-input-list-item {
-        text-decoration: none;
-        color: black;
-        cursor: pointer;
       }
     }
   }
@@ -884,10 +879,12 @@ export default {
   },
   computed: {
     filterProducts() {
-      let filterResult = this.tempProductsList.filter((item) => {
-        return item.title.match(this.search);
-      });
-      if (filterResult.length <= 10) {
+      let filterResult = [];
+      filterResult = this.tempProductsList.filter((item) =>
+        item.title.includes(this.search),
+      );
+      console.log('filter', filterResult);
+      if (filterResult && filterResult.length <= 10) {
         return filterResult;
       } else {
         return filterResult.splice(0, 10);
@@ -954,6 +951,7 @@ export default {
     },
     searchProduct() {
       if (this.search !== '') {
+        console.log('push');
         this.$router.push({
           path: '/search',
           query: {
@@ -963,7 +961,7 @@ export default {
         });
         this.search = '';
       } else {
-        console.log('search 沒東西');
+        console.warn('search 沒東西');
       }
     },
     getCarts() {

@@ -118,7 +118,6 @@ export default {
       this.couponPercent = 100 - this.coupon.percent;
 
       // 將時間改為 YYYY-MM-DD
-      console.log(this.tempCoupon.due_date);
       if (Object.prototype.hasOwnProperty.call(this.tempCoupon, 'due_date')) {
         const dateAndTime = new Date(this.tempCoupon.due_date * 1000)
           .toISOString()

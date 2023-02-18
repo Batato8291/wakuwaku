@@ -86,10 +86,6 @@ const routes = [
     ],
   },
   {
-    path: '/about',
-    name: 'about',
-  },
-  {
     path: '/:pathMatch(.*)*',
     component: () => import('../views/ErrorPage.vue'),
     meta: {

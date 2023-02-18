@@ -11,14 +11,6 @@
       }}&emsp; 文：{{ article.author }}
     </p>
 
-    <!-- <div class="campaign-img d-flex justify-content-center">
-      <img
-        :src="article.coverImg"
-        style="max-height: 300px"
-        alt="event picture"
-      />
-    </div> -->
-
     <div class="w-100">
       <div class="campaign-content ck-content" v-html="article.content"></div>
     </div>
@@ -174,11 +166,6 @@ export default {
       this.$http.get(api).then((res) => {
         if (res.data.success) {
           this.article = res.data.article;
-          console.log(this.article);
-
-          // if (res.data.article.article_type === 'guide') {
-          //   win(this.article.campaignUrl);
-          // }
         }
       });
     },
@@ -186,11 +173,9 @@ export default {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/articles?page=${page}`;
       this.$http
         .get(api)
-        .then((res) => {
-          console.log('article', res);
-        })
+        .then((res) => {})
         .catch((err) => {
-          console.log('err', err);
+          console.warn('err', err);
         });
     },
   },

@@ -355,7 +355,6 @@ export default {
         matchItem.push(pushItem);
         sum += pushItem.total;
       });
-      console.log('matchItem', matchItem);
       return sum;
     },
   },
@@ -363,7 +362,6 @@ export default {
     itemSwipe() {
       let expansion = null;
       const itemBox = document.querySelectorAll('.cart-list .item_box');
-      // console.log('box', itemBox);
       for (let i = 0; i < itemBox.length; i++) {
         let x, y, X, Y, swipeX, swipeY;
         itemBox[i].addEventListener('touchstart', function (event) {
@@ -388,7 +386,6 @@ export default {
             if (X - x > 10) {
               event.preventDefault();
               // 右滑收起
-              // console.dir(this);
               this.classList.remove('swipeleft');
             }
             // 左滑
@@ -410,10 +407,12 @@ export default {
     getCarts() {
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
       this.unCheckItems = [];
+      this.isLoading = true;
       this.$http.get(url).then((res) => {
+        this.isLoading = false;
         this.carts = res.data.data.carts;
         this.carts.forEach((item) => this.unCheckItems.push(item.id));
-        console.log('cart', this.carts, 'uncheck', this.unCheckItems);
+
         if (window.screen.width < 992) {
           this.$nextTick(() => {
             this.itemSwipe();
@@ -423,8 +422,6 @@ export default {
       });
     },
     updateCart(cart, changeQty) {
-      console.log('change Qty');
-      // this.isLoading = true;
       this.status.loadingItem = cart.id;
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${cart.id}`;
       let newQty;
@@ -443,12 +440,11 @@ export default {
         product_id: cart.product_id,
         qty: newQty,
       };
+
       this.$http.put(url, { data: newCart }).then((res) => {
-        // this.isLoading = false;
-        console.log(res);
         this.getCarts();
         this.status.loadingItem = '';
-        // this.$httpMessageState(res, '更新購物車');
+        this.$httpMessageState(res, '更新購物車');
       });
     },
     openDelModal(item) {
@@ -468,8 +464,9 @@ export default {
 
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
       this.$http.delete(api).then((res) => {
-        console.log(res);
         delComponent.hideModal();
+        this.$httpMessageState(res, '刪除商品');
+
         this.getCarts();
       });
     },
@@ -488,11 +485,9 @@ export default {
       let resultItem = this.unCheckItems.filter((item) => {
         return this.checkedItems.indexOf(item) === -1;
       });
-      console.log('result', resultItem);
       resultItem.forEach((id) => {
         let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
         this.$http.delete(api).then((res) => {
-          console.log(res);
           this.$emitter.emit('cartsUpdate', {});
         });
       });

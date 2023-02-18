@@ -19,7 +19,6 @@ export default {
       messages: [],
     };
   },
-  // inject: ['emitter'],
   mounted() {
     this.$emitter.on('push-message', (message) => {
       const { style, title, content } = message;

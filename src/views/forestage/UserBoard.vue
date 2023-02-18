@@ -138,7 +138,6 @@ export default {
         if (res.data.success) {
           const productsArr = Object.values(res.data.products);
           this.products = this.sortByDate(productsArr);
-          // console.log('time', this.products);
 
           // tag 提取
           this.tags.comicTags = this.listTags(this.products, 'comic');
@@ -183,16 +182,12 @@ export default {
       }
     },
     changeSelection(selected) {
-      console.log('emit select', selected);
       this.tempSelection = selected;
     },
   },
 
   created() {
     this.getProducts();
-  },
-  mounted() {
-    console.log(this.filteredList);
   },
 };
 </script>

@@ -92,7 +92,6 @@ export default {
       this.$http.get(api).then((res) => {
         this.isLoading = false;
         if (res.data.success) {
-          console.log(res.data);
           this.coupons = res.data.coupons;
           this.pagination = res.data.pagination;
         }
@@ -109,7 +108,6 @@ export default {
       couponComponent.showModal();
     },
     updateCoupon(item) {
-      console.log(item);
       this.tempCoupon = item;
       // 新增
       let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon`;
@@ -124,7 +122,6 @@ export default {
       // fn 用[]
       this.$http[httpMethod](api, { data: this.tempCoupon }).then((res) => {
         this.isLoading = false;
-        console.log(res);
         couponComponent.hideModal();
         this.getCoupons();
         this.$httpMessageState(res, '更新優惠券');
@@ -142,7 +139,6 @@ export default {
       this.isLoading = true;
       this.$http.delete(api).then((res) => {
         this.isLoading = false;
-        console.log(res);
         delComponent.hideModal();
         this.getCoupons();
         this.$httpMessageState(res, '刪除優惠券');

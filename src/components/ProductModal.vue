@@ -559,9 +559,8 @@ export default {
       const formData = new FormData();
       formData.append('file-to-upload', uploadedFile);
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/upload`;
-      console.dir(formData);
+
       this.$http.post(url, formData).then((res) => {
-        console.log(res);
         if (res.data.success) {
           this.tempImgUrl = res.data.imageUrl;
         }
@@ -597,9 +596,6 @@ export default {
       this.tempProduct.author_des = des;
     },
 
-    testFn() {
-      console.log(this.$refs.productForm);
-    },
     changePriceType(item) {
       item.origin_price = parseInt(item.origin_price);
       item.price = parseInt(item.price);

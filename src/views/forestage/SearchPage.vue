@@ -664,12 +664,8 @@ export default {
       favorArr: JSON.parse(localStorage.getItem('favor')) || [],
     };
   },
-  // props: { productsAll: Array },
 
   watch: {
-    sortBy() {
-      console.log('sortBy', this.sortBy);
-    },
     'window.width': function () {
       if (this.window.width <= 768) {
         this.displayMode = 'grid';
@@ -678,7 +674,7 @@ export default {
     '$route.query': {
       handler: function () {
         this.tempSearchQuery = this.$route.query;
-        // console.log('watch query', this.tempSearchQuery);
+
         // 分類標示
         if (this.$route.query.category === 'comic') {
           this.tempSearchQuery.categoryCN = '漫畫, ';
@@ -770,7 +766,7 @@ export default {
 
         this.tempSearchQuery.searchArr = newSearch.split(' ');
         this.tempSearchQuery.searchArr.splice(0, 0, newSearch);
-        console.log('arr', this.tempSearchQuery.searchArr);
+
         filteredResult = this.filterFn(
           this.tempProducts,
           this.tempSearchQuery.searchArr,
@@ -783,8 +779,6 @@ export default {
       this.tempAuthorList = this.listAllAuthor(filteredResult);
 
       const finalFilteredResult = [...new Set(filteredResult)];
-
-      console.log('final result', finalFilteredResult);
 
       //sortBy
       let sortedResult = [];
@@ -804,7 +798,6 @@ export default {
         sortedResult = this.sortByName(finalFilteredResult).reverse();
       }
 
-      console.log('After Sort', sortedResult);
       return sortedResult;
     },
   },
@@ -892,19 +885,16 @@ export default {
         searchConditions.forEach((condition) => {
           const matchTitleList = this.matchName(allProductList, condition);
           filterResult.push(...matchTitleList);
-          console.log('match 標題', condition, matchTitleList);
         });
         // match series
         searchConditions.forEach((condition) => {
           const matchSeriesList = this.matchSeries(allProductList, condition);
           filterResult.push(...matchSeriesList);
-          console.log('match 系列', condition, matchSeriesList);
         });
         // match author
         searchConditions.forEach((condition) => {
           const matchAuthorList = this.matchAuthor(allProductList, condition);
           filterResult.push(...matchAuthorList);
-          console.log('match 作者', condition, matchAuthorList);
         });
         // match publisher
         searchConditions.forEach((condition) => {
@@ -913,14 +903,12 @@ export default {
             condition,
           );
           filterResult.push(...matchPublisherList);
-          console.log('match 出版社', condition, matchPublisherList);
         });
         // match tags
         if (filterResult.length == 0) {
           searchConditions.forEach((condition) => {
             const matchTagsList = this.matchTags(allProductList, condition);
             filterResult.push(...matchTagsList);
-            console.log('match tags', condition, matchTagsList);
           });
         }
       }
@@ -1006,7 +994,6 @@ export default {
     },
   },
   created() {
-    // console.log(this.$route);
     // 偵測螢幕大小變化
     window.addEventListener('resize', this.handleResize);
     this.handleResize;

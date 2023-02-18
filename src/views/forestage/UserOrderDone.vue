@@ -94,7 +94,6 @@ export default {
           this.$router.push(`/checkout/${id}`);
         } else {
           this.order = res.data.order;
-          console.log(this.order);
         }
       });
     },
@@ -102,9 +101,7 @@ export default {
   created() {
     // 取得 ID
     this.id = this.$route.params.orderId;
-    // console.log(this.id);
     this.getOrder(this.id);
-    // this.getAllOrder(1);
   },
 };
 </script>

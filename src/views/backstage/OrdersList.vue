@@ -96,12 +96,10 @@ export default {
         // this.isLoading = false;
 
         if (res.data.success) {
-          console.log(res.data);
           this.orders = res.data.orders;
           if (res.data.pagination) {
             this.pagination.currentPage = res.data.pagination.current_page;
             this.pagination.pageTotal = res.data.pagination.total_pages;
-            console.log(this.pagination);
           }
         }
       });
@@ -119,13 +117,13 @@ export default {
     deleteOrder(id) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/order/${id}`;
       const delComponent = this.$refs.delModal;
-      //   this.isLoading = true;
+      this.isLoading = true;
       this.$http.delete(api).then((res) => {
-        // this.isLoading = false;
-        console.log(res);
+        this.isLoading = false;
+
         delComponent.hideModal();
         this.getOrders();
-        // this.$httpMessageState(res, '刪除訂單');
+        this.$httpMessageState(res, '刪除訂單');
       });
     },
     deleteAllOrders() {

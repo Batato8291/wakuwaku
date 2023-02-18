@@ -241,13 +241,10 @@ export default {
       this.$http.get(api).then((res) => {
         if (res.data.success && res.data.order) {
           this.order = res.data.order;
-          console.log(this.order);
           if (this.order.is_paid) {
             this.confirmLeave = true;
             this.$router.push(`/order-done/${id}`);
           }
-        } else {
-          console.log('訂單錯物');
         }
       });
     },
@@ -268,16 +265,11 @@ export default {
 
     getAllOrder(page) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/orders?page=${page}`;
-      this.$http.get(api).then((res) => {
-        console.log('all', res);
-      });
+      this.$http.get(api).then();
     },
   },
-  beforeRouteUpdate(to, from) {
-    console.log('update page', to, from);
-  },
+
   beforeRouteLeave(to, from) {
-    console.log('leave page....', this.confirmLeave, to, from);
     this.toPage = to.fullPath;
     if (
       to.name !== 'CheckOut' &&
@@ -291,10 +283,7 @@ export default {
   created() {
     // 取得 ID
     this.id = this.$route.params.orderId;
-    console.log(this.id);
-
     this.getOrder(this.id);
-    // this.getAllOrder(1);
   },
 };
 </script>

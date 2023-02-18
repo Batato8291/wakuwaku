@@ -242,7 +242,6 @@ export default {
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/upload`;
       this.$http.post(url, formData).then((res) => {
         if (res.data.success) {
-          console.log(res);
           this.tempArticle.coverImg = res.data.imageUrl;
         }
       });
@@ -252,9 +251,6 @@ export default {
       this.tempArticle.content = content;
     },
   },
-  // mounted() {
-  //   console.log(this);
-  // },
 };
 </script>
 

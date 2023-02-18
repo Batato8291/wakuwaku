@@ -455,7 +455,6 @@ export default {
         page++;
       }
       this.allArticles = articlesData;
-      console.log('all', this.allArticles);
     },
   },
   created() {

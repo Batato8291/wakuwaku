@@ -288,14 +288,7 @@ export default {
       },
     },
   },
-  watch: {
-    productInfo: () => {
-      console.log('change Card');
-    },
-    favorArr() {
-      console.log('favor change');
-    },
-  },
+
   computed: {
     isFavorite() {
       const index = this.favorArr.indexOf(this.productInfo.id);
@@ -321,6 +314,5 @@ export default {
     addToCart,
     addToFavor,
   },
-  mounted() {},
 };
 </script>
