@@ -883,7 +883,6 @@ export default {
       filterResult = this.tempProductsList.filter((item) =>
         item.title.includes(this.search),
       );
-      console.log('filter', filterResult);
       if (filterResult && filterResult.length <= 10) {
         return filterResult;
       } else {
@@ -951,7 +950,6 @@ export default {
     },
     searchProduct() {
       if (this.search !== '') {
-        console.log('push');
         this.$router.push({
           path: '/search',
           query: {
