@@ -91,9 +91,9 @@ export default {
   methods: {
     getOrders(page = 1) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/orders?page=${page}`;
-      //   this.isLoading = true;
+      this.isLoading = true;
       this.$http.get(api).then((res) => {
-        // this.isLoading = false;
+        this.isLoading = false;
 
         if (res.data.success) {
           this.orders = res.data.orders;
@@ -129,13 +129,13 @@ export default {
     deleteAllOrders() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/orders/all`;
       this.$http.delete(api).then((res) => {
-        console.log(res);
+        this.$httpMessageState(res, '刪除全部訂單');
       });
     },
     updateOrder(order) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/order/${order.id}`;
       this.$http.put(api, { data: order }).then((res) => {
-        console.log(res);
+        this.$httpMessageState(res, '訂單更新');
       });
     },
     openOrderModal(item) {

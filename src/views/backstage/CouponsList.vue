@@ -31,10 +31,25 @@
           </td>
           <td>{{ $filters.date(item.due_date) }}</td>
           <td>
-            <span class="text-success fw-bolder" v-if="item.is_enabled === 1"
-              >啟用</span
-            >
-            <span class="text-muted fw-bolder" v-else>未啟用</span>
+            <div class="form-check form-switch">
+              <label class="form-check-label" for="enabled">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="enabled"
+                  :true-value="1"
+                  :false-value="0"
+                  v-model="item.is_enabled"
+                  @change="updateEnabled(item)"
+                />
+                <span
+                  class="text-success fw-bolder"
+                  v-if="item.is_enabled === 1"
+                  >啟用</span
+                >
+                <span class="text-danger fw-bolder" v-else>未啟用</span>
+              </label>
+            </div>
           </td>
           <td>
             <div class="btn-group">
@@ -124,6 +139,13 @@ export default {
         this.isLoading = false;
         couponComponent.hideModal();
         this.getCoupons();
+        this.$httpMessageState(res, '更新優惠券');
+      });
+    },
+    updateEnabled(item) {
+      this.tempCoupon = item;
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon/${item.id}`;
+      this.$http.put(api, { data: this.tempCoupon }).then((res) => {
         this.$httpMessageState(res, '更新優惠券');
       });
     },

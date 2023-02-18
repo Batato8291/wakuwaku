@@ -67,6 +67,7 @@
   <router-view />
 </template>
 <script>
+import collapse from 'bootstrap/js/dist/collapse';
 import emitter from '@/methods/emitter';
 import ToastMessages from '@/components/ToastMessages.vue';
 
