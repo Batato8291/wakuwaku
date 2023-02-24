@@ -328,6 +328,35 @@
             </ul>
           </li>
 
+          <li
+            class="list-group-item"
+            href="#publisherCollapse"
+            data-bs-toggle="collapse"
+            role="button"
+            aria-expanded="false"
+          >
+            <a>
+              <span class="category-icon nav-item-icon"
+                ><i class="fa-solid fa-angles-right category-icon"></i
+              ></span>
+              依出版社
+            </a>
+            <ul class="collapse mt-2" id="publisherCollapse">
+              <li
+                v-for="(item, i) in tempPublisherList"
+                :key="'publisher-' + i"
+              >
+                <router-link
+                  class="dropdown-item"
+                  to=""
+                  @click="routeToFn('all', false, false, item)"
+                >
+                  {{ item }}
+                </router-link>
+              </li>
+            </ul>
+          </li>
+
           <!-- 作者選單在有search時才啟動 -->
           <li
             class="list-group-item"
@@ -348,35 +377,6 @@
                   class="dropdown-item"
                   to=""
                   @click="routeToFn('all', false, item)"
-                >
-                  {{ item }}
-                </router-link>
-              </li>
-            </ul>
-          </li>
-
-          <li
-            class="list-group-item"
-            href="#publisherCollapse"
-            data-bs-toggle="collapse"
-            role="button"
-            aria-expanded="false"
-          >
-            <a>
-              <span class="category-icon nav-item-icon"
-                ><i class="fa-solid fa-angles-right category-icon"></i
-              ></span>
-              依出版社
-            </a>
-            <ul class="collapse mt-2 show" id="publisherCollapse">
-              <li
-                v-for="(item, i) in tempPublisherList"
-                :key="'publisher-' + i"
-              >
-                <router-link
-                  class="dropdown-item"
-                  to=""
-                  @click="routeToFn('all', false, false, item)"
                 >
                   {{ item }}
                 </router-link>
@@ -775,7 +775,7 @@ export default {
       // 篩選搜尋結果
 
       // list publisher & authors
-      this.tempPublisherList = this.listAllPublisher(filteredResult);
+      this.tempPublisherList = this.listAllPublisher(this.allProducts);
       this.tempAuthorList = this.listAllAuthor(filteredResult);
 
       const finalFilteredResult = [...new Set(filteredResult)];
