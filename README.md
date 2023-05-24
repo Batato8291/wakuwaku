@@ -25,7 +25,7 @@ Wakuwaku
 
 
 ## Github Pages
-```
-https://batato8291.github.io/Wakuwaku/dist/index.html
-```
+
+[Wakuwaku](https://batato8291.github.io/Wakuwaku/dist/index.html)
+
 
