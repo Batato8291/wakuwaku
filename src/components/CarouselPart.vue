@@ -399,8 +399,8 @@
 }
 
 .carousel-box {
-  min-height: 250px;
-  max-height: 350px;
+  min-height: 180px;
+  max-height: 190px;
   overflow-y: hidden;
   height: 80vw;
 }
