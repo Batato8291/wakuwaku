@@ -24,7 +24,7 @@
         </p>
       </div>
       <!-- 簡介 -->
-      <div class="des_short bg-light">
+      <div class="des_short">
         <p>
           {{ shortIntro }}
           <span
@@ -241,8 +241,8 @@ export default {
       const des = this.productInfo.des_short;
 
       if (window.innerWidth > 992) {
-        if (des && des.length >= 180) {
-          return des.slice(0, 180);
+        if (des && des.length >= 100) {
+          return des.slice(0, 100);
         } else {
           return des;
         }
