@@ -60,7 +60,7 @@
                 placeholder="Search"
                 aria-label="Search input"
                 aria-describedby="search-button"
-                v-model.trim="search"
+                v-model.trim="this.search"
                 @keydown="keyboardEvent"
               />
               <button
@@ -880,9 +880,11 @@ export default {
   computed: {
     filterProducts() {
       let filterResult = [];
+      const keyword = this.search;
       filterResult = this.tempProductsList.filter((item) =>
-        item.title.includes(this.search),
+        item.title.includes(keyword),
       );
+      // console.log('filterResult');
       if (filterResult && filterResult.length <= 10) {
         return filterResult;
       } else {
