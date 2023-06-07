@@ -26,6 +26,6 @@ Wakuwaku
 
 ## Github Pages
 
-[Wakuwaku](https://batato8291.github.io/Wakuwaku/dist/index.html)
+[Wakuwaku](https://guaguawa1581.github.io/Wakuwaku/dist/index.html)
 
 
